@@ -58,10 +58,10 @@ public class WeChat extends AWechatActivity implements IXListViewListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.wechat);
 		initUI();
-		XMPPConnection connection = XmppConnectionManager.getInstance().getConnection();
-		if (!connection.isConnected()) {
-			connect2xmpp();
-		}
+//		XMPPConnection connection = XmppConnectionManager.getInstance().getConnection();
+//		if (!connection.isConnected()) {
+//			connect2xmpp();
+//		}
 	}
 	
 	@Override

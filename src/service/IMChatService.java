@@ -48,7 +48,6 @@ public class IMChatService extends Service {
 	@Override
 	public void onCreate() {
 		context = this;
-		Logger.i("c");
 		super.onCreate();
 		
 		initChatManager();
@@ -56,7 +55,6 @@ public class IMChatService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Logger.i("s");
 		return super.onStartCommand(intent, flags, startId);
 	}
 	
@@ -93,8 +91,6 @@ public class IMChatService extends Service {
 			if (message != null && message.getBody() != null
 					&& !message.getBody().equals("null")) {
 				IMMessage msg = new IMMessage();
-				// String time = (String)
-				// message.getProperty(IMMessage.KEY_TIME);
 				String time = (System.currentTimeMillis()/1000)+"";//DateUtil.date2Str(Calendar.getInstance(), Constant.MS_FORMART);
 				msg.setTime(time);
 				msg.setContent(message.getBody());

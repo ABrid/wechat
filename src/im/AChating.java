@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 
 import bean.JsonMessage;
 
+import service.DLSocketService;
 import tools.DateUtil;
 import tools.Logger;
 
@@ -40,7 +41,7 @@ import config.XmppConnectionManager;
  *
  */
 public abstract class AChating extends AppActivity{
-	private Chat chat = null;
+//	private Chat chat = null;
 	private List<IMMessage> message_pool = null;
 	protected String to;
 	private static int pageSize = 10;
@@ -52,8 +53,8 @@ public abstract class AChating extends AppActivity{
 		to = getIntent().getStringExtra("to");
 		if (to == null)
 			return;
-		chat = XmppConnectionManager.getInstance().getConnection()
-				.getChatManager().createChat(to, null);
+//		chat = XmppConnectionManager.getInstance().getConnection()
+//				.getChatManager().createChat(to, null);
 	}
 	
 	@Override
@@ -113,14 +114,15 @@ public abstract class AChating extends AppActivity{
 		String json = gson.toJson(msg);
 		
 		String time = (System.currentTimeMillis()/1000)+"";
-		Message message = new Message();
-		message.setProperty(IMMessage.KEY_TIME, time);
-		message.setBody(json);
-		chat.sendMessage(message);
+//		Message message = new Message();
+//		message.setProperty(IMMessage.KEY_TIME, time);
+//		message.setBody(json);
+//		chat.sendMessage(message);
+		DLSocketService.emitEvent("singlechat", to, json);
 
 		IMMessage newMessage = new IMMessage();
 		newMessage.setMsgType(1);
-		newMessage.setFromSubJid(chat.getParticipant());
+		newMessage.setFromSubJid(to);
 		newMessage.setContent(json);
 		newMessage.setTime(time);
 		message_pool.add(newMessage);

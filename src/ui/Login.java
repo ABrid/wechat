@@ -3,11 +3,15 @@
  */
 package ui;
 
+import im.model.IMMessage;
+import im.model.Notice;
+
 import java.util.ArrayList;
 
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
 
+import service.DLSocketService;
 import tools.AppManager;
 import tools.ImageUtils;
 import tools.UIHelper;
@@ -20,7 +24,10 @@ import com.donal.wechat.R;
 import com.google.analytics.tracking.android.EasyTracker;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -55,16 +62,26 @@ public class Login extends AppActivity{
 	    EasyTracker.getInstance(this).activityStart(this);
 	}
 
-	  @Override
+	@Override
 	public void onStop() {
 	    super.onStop();
 	    EasyTracker.getInstance(this).activityStop(this);  
+	}
+	
+	@Override
+	protected void onDestroy() {
+		unregisterReceiver(receiver);
+		super.onDestroy();
 	}
 	  
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(CommonValue.SOCKET_ACTION.LOGIN);
+		registerReceiver(receiver, filter);
+		
 		imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 		initUI();
 	}
@@ -123,31 +140,32 @@ public class Login extends AppActivity{
 		}
 		else {
 			loadingPd = UIHelper.showProgress(this, null, null, true);
-			ApiClent.login(appContext, account, password, new ClientCallback() {
-				@Override
-				public void onSuccess(Object data) {
-					UIHelper.dismissProgress(loadingPd);
-					UserEntity user = (UserEntity) data;
-					if (user.status == 1) {
-						appContext.saveLoginInfo(user);
-						appContext.saveLoginPassword(password);
-						saveLoginConfig(appContext.getLoginInfo());
-						Intent intent = new Intent(Login.this, Tabbar.class);
-						startActivity(intent);
-						AppManager.getAppManager().finishActivity(Login.this);
-					}
-				}
-				
-				@Override
-				public void onFailure(String message) {
-					UIHelper.dismissProgress(loadingPd);
-				}
-				
-				@Override
-				public void onError(Exception e) {
-					UIHelper.dismissProgress(loadingPd);
-				}
-			});
+//			ApiClent.login(appContext, account, password, new ClientCallback() {
+//				@Override
+//				public void onSuccess(Object data) {
+//					UIHelper.dismissProgress(loadingPd);
+//					UserEntity user = (UserEntity) data;
+//					if (user.status == 1) {
+//						appContext.saveLoginInfo(user);
+//						appContext.saveLoginPassword(password);
+//						saveLoginConfig(appContext.getLoginInfo());
+//						Intent intent = new Intent(Login.this, Tabbar.class);
+//						startActivity(intent);
+//						AppManager.getAppManager().finishActivity(Login.this);
+//					}
+//				}
+//				
+//				@Override
+//				public void onFailure(String message) {
+//					UIHelper.dismissProgress(loadingPd);
+//				}
+//				
+//				@Override
+//				public void onError(Exception e) {
+//					UIHelper.dismissProgress(loadingPd);
+//				}
+//			});
+			DLSocketService.emitEvent("login", account, password);
 		}
 	}
 	
@@ -166,4 +184,22 @@ public class Login extends AppActivity{
 			break;
 		}
 	}
+	
+	
+	private BroadcastReceiver receiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			UIHelper.dismissProgress(loadingPd);
+			UserEntity user = (UserEntity) intent.getSerializableExtra(CommonValue.SOCKET_EVENT.LOGIN);
+			if (user.status == 1) {
+//				appContext.saveLoginInfo(user);
+//				appContext.saveLoginPassword(password);
+				saveLoginConfig(user);
+				Intent intent1 = new Intent(Login.this, Tabbar.class);
+				startActivity(intent1);
+				AppManager.getAppManager().finishActivity(Login.this);
+			}
+		}
+
+	};
 }

@@ -23,7 +23,7 @@
         android:textColorHint="#8f8f8f"
         android:textColor="#222222"
         android:textSize="18sp" 
-        android:inputType="text" 
+        android:inputType="phone" 
         >
         <requestFocus />
     </EditText>
@@ -40,7 +40,7 @@
         android:textColorHint="#8f8f8f"
         android:textColor="#222222"
         android:textSize="18sp" 
-        android:inputType="text"
+        android:inputType="phone"
         android:password="true" 
         >
     </EditText>

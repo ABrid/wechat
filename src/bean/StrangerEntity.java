@@ -24,6 +24,7 @@ public class StrangerEntity implements Serializable{
 	public List<UserInfo> userList;
 	
 	public static StrangerEntity parse(String res) throws IOException, AppException{
+		Logger.i(res);
 		StrangerEntity data = new StrangerEntity();
 		try {
 			Gson gson = new Gson();

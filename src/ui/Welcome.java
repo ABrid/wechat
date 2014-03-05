@@ -7,6 +7,7 @@ import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 import com.donal.wechat.R;
 
+import service.DLSocketService;
 import tools.AppContext;
 import tools.AppManager;
 import android.content.Intent;
@@ -56,6 +57,8 @@ public class Welcome extends AppActivity{
 			public void onAnimationStart(Animation animation) {}
 			
 		});
+		Intent chatServer = new Intent(this, DLSocketService.class);
+		startService(chatServer);
 	}
 	
 	private void redirectTo(){     

@@ -66,8 +66,8 @@ public class AppActivity extends BaseActivity implements AppActivitySupport{
 	@Override
 	public void startService() {
 		// 聊天服务
-		Intent chatServer = new Intent(context, IMChatService.class);
-		context.startService(chatServer);
+//		Intent chatServer = new Intent(context, IMChatService.class);
+//		context.startService(chatServer);
 		
 	}
 
@@ -230,8 +230,8 @@ public class AppActivity extends BaseActivity implements AppActivitySupport{
 	}
 	
 	public void saveLoginConfig(UserEntity loginConfig) {
-		preferences.edit().putString(CommonValue.USERID, loginConfig.userInfo.userId).commit();
-		preferences.edit().putString(CommonValue.APIKEY, loginConfig.apiKey).commit();
+		preferences.edit().putString(CommonValue.USERID, loginConfig.userInfo.mobile).commit();
+//		preferences.edit().putString(CommonValue.APIKEY, loginConfig.apiKey).commit();
 	}
 	
 	public UserEntity getLoginConfig() {

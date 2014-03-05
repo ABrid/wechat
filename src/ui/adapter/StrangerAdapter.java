@@ -75,8 +75,8 @@ public class StrangerAdapter extends BaseAdapter {
 		}
 		final UserInfo model = cards.get(position);
 		ImageLoader.getInstance().displayImage(CommonValue.BASE_URL+model.userHead, cell.avatarImageView, CommonValue.DisplayOptions.default_options);
-		cell.titleView.setText(model.nickName);
-		cell.desView.setText( model.description);
+		cell.titleView.setText(model.nickname);
+		cell.desView.setText( model.intro);
 		cell.alpha.setVisibility(View.GONE);
 		convertView.setOnClickListener( new OnClickListener() {
 			@Override

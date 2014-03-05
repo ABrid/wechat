@@ -23,6 +23,11 @@ public class UserInfo implements Serializable {
 	public String registerDate;
 	public String userHead;
 	
+	public String avatar;
+	public String nickname;
+	public String intro;
+	public String mobile;
+	
 	/**
 	 * @param string
 	 * @return

@@ -109,7 +109,9 @@ public class Chating extends AChating{
 		messageInput.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				listView.setSelection(getMessages().size()-1);
+				if (getMessages().size() > 5) {
+					listView.setSelection(getMessages().size()-1);
+				}
 			}
 		});
 		messageSendBtn = (Button) findViewById(R.id.chat_sendbtn);
@@ -179,7 +181,7 @@ public class Chating extends AChating{
 		public void refreshList(List<IMMessage> items) {
 			this.items = items;
 			this.notifyDataSetChanged();
-			
+			listView.setSelection(items.size()-1);
 		}
 
 		@Override
@@ -213,11 +215,11 @@ public class Chating extends AChating{
 			
 			useridView.setVisibility(View.GONE);
 			String content = message.getContent();
-			if (message.getMsgType() == 0) {
-				imageLoader.displayImage(CommonValue.BASE_URL+user.userHead, avatar, CommonValue.DisplayOptions.default_options);
-			} else {
-				imageLoader.displayImage(CommonValue.BASE_URL+appContext.getLoginUserHead(), avatar, CommonValue.DisplayOptions.default_options);
-			}
+//			if (message.getMsgType() == 0) {
+//				imageLoader.displayImage(CommonValue.BASE_URL+user.userHead, avatar, CommonValue.DisplayOptions.default_options);
+//			} else {
+//				imageLoader.displayImage(CommonValue.BASE_URL+appContext.getLoginUserHead(), avatar, CommonValue.DisplayOptions.default_options);
+//			}
 			try {
 				JsonMessage msg = JsonMessage.parse(content);
 				msgView.setText(msg.text);

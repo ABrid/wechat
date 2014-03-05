@@ -45,12 +45,12 @@ public class Friend extends AppActivity implements IXListViewListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.friend);
 		initUI();
-		Handler jumpHandler = new Handler();
-		jumpHandler.postDelayed(new Runnable() {
-			public void run() {
-				getFriendCardFromCache();
-			}
-		}, 100);
+//		Handler jumpHandler = new Handler();
+//		jumpHandler.postDelayed(new Runnable() {
+//			public void run() {
+//				getFriendCardFromCache();
+//			}
+//		}, 100);
 	}
 	
 	private void initUI() {

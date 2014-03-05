@@ -1,6 +1,7 @@
 package bean;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,7 +11,7 @@ import com.google.gson.Gson;
 import tools.AppException;
 import tools.Logger;
 
-public class UserEntity extends Entity{
+public class UserEntity implements Serializable{
 	public int status;
 	public String msg;
 	public String apiKey;

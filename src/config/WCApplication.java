@@ -12,6 +12,8 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.nostra13.universalimageloader.utils.L;
 
 
+import service.DLSocketService;
+import service.IMChatService;
 import tools.AppContext;
 import tools.AppException;
 import tools.AppManager;
@@ -64,6 +66,7 @@ public class WCApplication extends AppContext {
 		Intent intent = new Intent();
         intent.setAction("tools.NetworkState.Service");
         startService(intent);
+        
 	}
 	
 	public void exit() {

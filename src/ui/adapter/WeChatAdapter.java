@@ -130,36 +130,36 @@ public class WeChatAdapter extends BaseAdapter {
 		} catch(Exception e) {
 			holder.desView.setText(content);
 		}
-		UserInfo friend = FriendManager.getInstance(context).getFriend(userId.split("@")[0]);
+		UserInfo friend = FriendManager.getInstance(context).getFriend(userId);
 		if (friend != null && StringUtils.notEmpty(friend.userHead)) {
 			ImageLoader.getInstance().displayImage(CommonValue.BASE_URL+friend.userHead, holder.avatarImageView, CommonValue.DisplayOptions.default_options);
 			holder.titleView.setText(friend.nickName);
 			return;
 		}
-		SharedPreferences sharedPre = context.getSharedPreferences(
-				CommonValue.LOGIN_SET, Context.MODE_PRIVATE);
-		String apiKey = sharedPre.getString(CommonValue.APIKEY, null);
-		
-		ApiClent.getUserInfo(apiKey, userId.split("@")[0], new ClientCallback() {
-			
-			@Override
-			public void onSuccess(Object data) {
-				UserDetail userInfo = (UserDetail) data;
-				FriendManager.getInstance(context).saveOrUpdateFriend(userInfo.userDetail);
-				holder.titleView.setText(userInfo.userDetail.nickName);
-				ImageLoader.getInstance().displayImage(CommonValue.BASE_URL+userInfo.userDetail.userHead, holder.avatarImageView, CommonValue.DisplayOptions.default_options);
-		
-			}
-			
-			@Override
-			public void onFailure(String message) {
-			
-			}
-			
-			@Override
-			public void onError(Exception e) {
-				
-			}
-		});
+//		SharedPreferences sharedPre = context.getSharedPreferences(
+//				CommonValue.LOGIN_SET, Context.MODE_PRIVATE);
+//		String apiKey = sharedPre.getString(CommonValue.APIKEY, null);
+//		
+//		ApiClent.getUserInfo(apiKey, userId.split("@")[0], new ClientCallback() {
+//			
+//			@Override
+//			public void onSuccess(Object data) {
+//				UserDetail userInfo = (UserDetail) data;
+//				FriendManager.getInstance(context).saveOrUpdateFriend(userInfo.userDetail);
+//				holder.titleView.setText(userInfo.userDetail.nickName);
+//				ImageLoader.getInstance().displayImage(CommonValue.BASE_URL+userInfo.userDetail.userHead, holder.avatarImageView, CommonValue.DisplayOptions.default_options);
+//		
+//			}
+//			
+//			@Override
+//			public void onFailure(String message) {
+//			
+//			}
+//			
+//			@Override
+//			public void onError(Exception e) {
+//				
+//			}
+//		});
 	}
 }

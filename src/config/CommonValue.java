@@ -97,4 +97,23 @@ public class CommonValue {
 	 * 注册
 	 */
 	public static final int REQUEST_REGISTER_INFO = 1;
+	
+	
+	//socket
+	public static String SOCKET_HOST = "http://192.168.1.147:3000";
+	
+	public static interface SOCKET_EVENT {
+		public static String LOGIN = "login";
+		public static String REGISTER = "register";
+		public static String ALL_USER = "alluser";
+		public static String SINGLE_CHAT = "singlechat";
+	}
+	
+	public static interface SOCKET_ACTION {
+		public static String LOGIN = "login";
+		public static String REGISTER = "register";
+		public static String ALL_USER = "alluser";
+		public static String SINGLE_CHAT = "singlechat";
+	}
+	
 }
