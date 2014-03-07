@@ -62,18 +62,18 @@ public class Welcome extends AppActivity{
 	}
 	
 	private void redirectTo(){     
-		if(!appContext.isLogin()){
-//			if(!showWhatsNewOnFirstLaunch()){
-				Intent intent = new Intent(this,Login.class);
-				startActivity(intent);
-				AppManager.getAppManager().finishActivity(this);
-//			}
-		}
-		else {
+//		if(!appContext.isLogin()){
+////			if(!showWhatsNewOnFirstLaunch()){
+//				Intent intent = new Intent(this,Login.class);
+//				startActivity(intent);
+//				AppManager.getAppManager().finishActivity(this);
+////			}
+//		}
+//		else {
 			Intent intent = new Intent(this, Tabbar.class);
 	        startActivity(intent);
 	        AppManager.getAppManager().finishActivity(this);
-		}
+//		}
     }
 	
 	private boolean showWhatsNewOnFirstLaunch() {

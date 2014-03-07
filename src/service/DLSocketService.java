@@ -36,6 +36,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -58,7 +59,7 @@ public class DLSocketService extends Service implements IOCallback{
 	
 	@Override
 	public void onCreate() {
-		
+		notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		mBus = this;
 		super.onCreate();
 	}
@@ -76,6 +77,7 @@ public class DLSocketService extends Service implements IOCallback{
 		}
 		else {
 			if (!socket.isConnected()) {
+				Logger.i("r");
 				try {
 					initSocket();
 				} catch (MalformedURLException e) {
@@ -89,8 +91,10 @@ public class DLSocketService extends Service implements IOCallback{
 	
 	
 	private void initSocket() throws MalformedURLException {
-		notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		socket = new SocketIO(CommonValue.SOCKET_HOST, this);
+		socket = new SocketIO();
+		
+		socket.connect(CommonValue.SOCKET_HOST, this);
+		
 	}
 	
 	public static void emitEvent(String event, Object... objs) {
@@ -132,6 +136,7 @@ public class DLSocketService extends Service implements IOCallback{
 		else if (event.equals(CommonValue.SOCKET_EVENT.SINGLE_CHAT)) {
 			intent.setAction(CommonValue.SOCKET_ACTION.SINGLE_CHAT);
 			try {
+				ack.ack(true);
 				SingleChatEntity entity = SingleChatEntity.parse(objs[0].toString());
 				intent.putExtra(CommonValue.SOCKET_EVENT.SINGLE_CHAT, entity);
 				handleSingelChatMessage(entity);
@@ -139,24 +144,24 @@ public class DLSocketService extends Service implements IOCallback{
 				Logger.i(e);
 			}
 		}
-		
 	}
 
 	@Override
 	public void onConnect() {
-		Logger.i("connect");
+		Logger.i("connect" + socket.getNamespace());
+		SharedPreferences sharedPre = mBus.getSharedPreferences(CommonValue.LOGIN_SET, Context.MODE_PRIVATE);
+		String USERID = sharedPre.getString(CommonValue.USERID, null);
+		emitEvent("active", USERID);
 	}
 
 	@Override
 	public void onDisconnect() {
-		// TODO Auto-generated method stub
-		
+		Logger.i("disconnect");
 	}
 
 	@Override
-	public void onError(SocketIOException arg0) {
-		// TODO Auto-generated method stub
-		
+	public void onError(SocketIOException e) {
+		Logger.i(e);
 	}
 
 	@Override

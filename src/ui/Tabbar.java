@@ -2,7 +2,9 @@ package ui;
 
 
 import im.WeChat;
+import service.DLSocketService;
 import tools.AppManager;
+import tools.Logger;
 
 import com.donal.wechat.R;
 
@@ -36,6 +38,14 @@ public class Tabbar extends TabActivity implements OnCheckedChangeListener{
 	private final static String TAB_TAG_FRIEND = "tab_tag_friend";
 	private final static String TAB_TAG_ME = "tab_tag_me";
 	private final static String TAB_TAG_FIND = "tab_tag_findfriend";
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Logger.i("a");
+		Intent chatServer = new Intent(this, DLSocketService.class);
+		startService(chatServer);
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
